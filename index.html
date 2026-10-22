@@ -90,7 +90,7 @@
         @keyframes glitchSlamAnim {
             0% { transform: translate(0, 0) scale(1.03); filter: hue-rotate(90deg) contrast(220%); }
             20% { transform: translate(-8px, 4px); filter: invert(0.8); }
-            40% { transform: translate(8px, -4px); }
+            40% { transform: translate(-8px, -4px); }
             60% { transform: translate(-4px, -2px); }
             100% { transform: translate(0, 0) scale(1); filter: none; }
         }
@@ -430,51 +430,15 @@
 
 
         <!-- ======================================================================
-             СЦЕНА 1: ИНТРО (ЗАЦИКЛЕННАЯ ГИФКА, КРУТИТСЯ ПОКА ИГРОК НЕ НАЖМЕТ)
+             СЦЕНА 1: ИНТРО (ЗАЦИКЛЕННОЕ ВИДЕО НА ФОНЕ)
              ====================================================================== -->
         <section id="scene-intro" class="game-scene active flex-col items-center justify-between p-8 cursor-pointer" onclick="startGameFromIntro()">
             
-            <!-- ==================================================================
-                 [ТЕКСТУРА ИНТРО-ГИФКИ]:
-                 Вставьте путь к вашей зацикленной гифке в атрибут src="..." ниже!
-                 Пока гифка не вставлена, на фоне работает атмосферная SVG-анимация.
-                 ================================================================== -->
-        <video id="intro-gif-bg" autoplay loop muted playsinline class="absolute inset-0 w-full h-full object-cover z-0">
-            <source src="https://b07pvl.github.io/Halowinner/igro/cut%20kinda%20scenes/intro.mp4" type="video/mp4">
-            Ваш браузер не поддерживает видео.
-        </video>
-
-            <!-- Анимированный атмосферный фон по умолчанию (пока вы не подставили свой intro.gif) -->
-            <div class="absolute inset-0 bg-[#07070c] z-0 flex items-center justify-center overflow-hidden">
-                <svg class="w-full h-full opacity-75" viewBox="0 0 960 540">
-                    <defs>
-                        <radialGradient id="introGlow" cx="50%" cy="50%" r="50%">
-                            <stop offset="0%" stop-color="#3b0764" stop-opacity="0.45"/>
-                            <stop offset="60%" stop-color="#0f172a" stop-opacity="0.2"/>
-                            <stop offset="100%" stop-color="#050508" stop-opacity="1"/>
-                        </radialGradient>
-                    </defs>
-                    <rect width="960" height="540" fill="url(#introGlow)"/>
-                    <!-- Медленно вращающиеся круги компаса и дверей во сне -->
-                    <g transform="translate(480, 270)">
-                        <circle r="190" stroke="#475569" stroke-width="0.7" stroke-dasharray="4 8" fill="none">
-                            <animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="60s" repeatCount="indefinite"/>
-                        </circle>
-                        <circle r="135" stroke="#a855f7" stroke-width="1" stroke-opacity="0.4" stroke-dasharray="18 10" fill="none">
-                            <animateTransform attributeName="transform" type="rotate" from="360" to="0" dur="35s" repeatCount="indefinite"/>
-                        </circle>
-                        <!-- Силуэт приоткрытых створок гардероба со свечением -->
-                        <rect x="-42" y="-75" width="84" height="150" fill="#09090f" stroke="#94a3b8" stroke-width="1.5"/>
-                        <line x1="0" y1="-75" x2="0" y2="75" stroke="#c084fc" stroke-width="2" stroke-opacity="0.8">
-                            <animate attributeName="stroke-opacity" values="0.2;0.95;0.2" dur="3s" repeatCount="indefinite"/>
-                        </line>
-                        <!-- Стрелка кулона-компаса -->
-                        <polygon points="0,-115 6,-15 0,0 -6,-15" fill="#e2e8f0" opacity="0.7">
-                            <animateTransform attributeName="transform" type="rotate" values="0; 45; 38; 45; 0" dur="7s" repeatCount="indefinite"/>
-                        </polygon>
-                    </g>
-                </svg>
-            </div>
+            <!-- Зацикленное видео интро -->
+            <video id="intro-gif-bg" autoplay loop muted playsinline class="absolute inset-0 w-full h-full object-cover z-0">
+                <source src="https://b07pvl.github.io/Halowinner/igro/cut%20kinda%20scenes/intro.mp4" type="video/mp4">
+                Ваш браузер не поддерживает видео.
+            </video>
 
             <!-- Затемнение по краям -->
             <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/80 z-10"></div>
@@ -494,7 +458,7 @@
 
             <!-- Индикатор слота под гифку -->
             <div class="relative z-20 bg-black/50 border border-slate-800/90 px-4 py-2 rounded-lg text-[11px] text-slate-400 font-mono">
-                Слот <span class="text-purple-300">#intro-gif-bg</span> (крутится бесконечно до клика игрока)
+                Слот <span class="text-purple-300">#intro-gif-bg</span>
             </div>
 
             <!-- Приглашение нажать -->
@@ -511,17 +475,14 @@
              ====================================================================== -->
         <section id="scene-game" class="game-scene flex-col justify-between">
             
-            <!-- ==================================================================
-                 [ТЕКСТУРА ФОНА ВТОРОЙ СЦЕНЫ (КОМНАТА)]:
-                 Подставьте ваш арт комнаты в атрибут src="..." у #room-bg-texture!
-                 ================================================================== -->
+            <!-- [ТЕКСТУРА ФОНА ВТОРОЙ СЦЕНЫ (КОМНАТА)] -->
             <img id="room-bg-texture" 
                  src="" 
                  alt="Фон комнаты" 
                  class="absolute inset-0 w-full h-full object-cover z-0 hidden"
                  onload="if(this.getAttribute('src')) this.classList.remove('hidden');" />
 
-            <!-- Детализированная векторная сцена комнаты (служит наглядным фоном до подстановки вашей текстуры) -->
+            <!-- Детализированная векторная сцена комнаты -->
             <svg id="room-vector-fallback" class="absolute inset-0 w-full h-full z-0 pointer-events-none" viewBox="0 0 960 540" fill="none">
                 <defs>
                     <linearGradient id="wallGrad" x1="0" y1="0" x2="0" y2="1">
@@ -565,39 +526,30 @@
 
                 <!-- 3. СТОЛ В ЦЕНТРЕ С КУЛОНОМ-КОМПАСОМ И РАДИОПРИЕМНИКОМ -->
                 <g>
-                    <!-- Столешница -->
                     <polygon points="225,355 535,355 565,395 195,395" fill="#241c24" stroke="#475569" stroke-width="2"/>
                     <rect x="215" y="395" width="16" height="90" fill="#181218"/>
                     <rect x="529" y="395" width="16" height="90" fill="#181218"/>
 
-                    <!-- Кулон-компас на столе (слева) -->
                     <circle cx="305" cy="368" r="18" fill="#1e293b" stroke="#fbbf24" stroke-width="2"/>
                     <circle cx="332" cy="358" r="14" fill="#0f172a" stroke="#fbbf24" stroke-width="1.5"/>
                     <line x1="305" y1="368" x2="313" y2="358" stroke="#f43f5e" stroke-width="2"/>
 
-                    <!-- Старый приемник/шкатулка частот на столе (справа) -->
                     <rect x="430" y="322" width="76" height="46" rx="4" fill="#1e2433" stroke="#64748b" stroke-width="2"/>
                     <line x1="445" y1="322" x2="475" y2="288" stroke="#94a3b8" stroke-width="1.5"/>
                     <circle cx="450" cy="346" r="8" fill="#0f172a" stroke="#38bdf8" stroke-width="1.5"/>
                     <circle cx="485" cy="346" r="8" fill="#0f172a" stroke="#94a3b8" stroke-width="1.5"/>
                 </g>
 
-                <!-- 4. ДВЕРЬ №2 СПРАВА — ГАРДЕРОБ (Откуда идет звук и вход в Искаженную комнату) -->
+                <!-- 4. ДВЕРЬ №2 СПРАВА — ГАРДЕРОБ -->
                 <g>
-                    <!-- Таинственное свечение вокруг гардероба -->
                     <ellipse cx="705" cy="265" rx="125" ry="175" fill="url(#wardrobeAura)"/>
-                    <!-- Корпус высокого старинного гардероба с 2 створками -->
                     <polygon points="620,95 790,95 802,112 608,112" fill="#1c1427" stroke="#6b21a8" stroke-width="1.5"/>
                     <rect x="615" y="112" width="180" height="315" fill="#140f1d" stroke="#7e22ce" stroke-width="2"/>
-                    <!-- Левая створка (Дверь 1 гардероба) -->
                     <rect x="623" y="120" width="80" height="298" fill="#191224" stroke="#4c1d95" stroke-width="1.5"/>
-                    <!-- Правая створка (Дверь 2 гардероба — приоткрыта, оттуда идет гул и свет) -->
                     <rect x="707" y="120" width="80" height="298" fill="#120b1d" stroke="#a855f7" stroke-width="2"/>
-                    <!-- Щель света между створками -->
                     <line x1="705" y1="120" x2="705" y2="418" stroke="#d8b4fe" stroke-width="2.5">
                         <animate attributeName="stroke-opacity" values="0.3;1;0.3" dur="2.2s" repeatCount="indefinite"/>
                     </line>
-                    <!-- Звуковые волны из 2-й двери гардероба -->
                     <path d="M 745 245 Q 765 265 745 285" stroke="#c084fc" stroke-width="1.5" fill="none" opacity="0.6">
                         <animate attributeName="opacity" values="0.1;0.8;0.1" dur="1.8s" repeatCount="indefinite"/>
                     </path>
@@ -629,10 +581,7 @@
                 </div>
             </div>
 
-            <!-- ==================================================================
-                 СЛОЙ ИНТЕРАКТИВНЫХ ТРИГГЕРОВ (ХИТБОКСОВ) НА КОМНАТЕ
-                 Координаты в процентах легко менять под ваши текстуры!
-                 ================================================================== -->
+            <!-- СЛОЙ ИНТЕРАКТИВНЫХ ТРИГГЕРОВ (ХИТБОКСОВ) НА КОМНАТЕ -->
             <div id="room-triggers-layer" class="absolute inset-0 z-10">
 
                 <!-- ТРИГГЕР 1: КУЛОН-КОМПАС НА СТОЛЕ -->
@@ -671,7 +620,7 @@
                     <div class="hitbox-tooltip">🚪 Обычная дверь комнаты</div>
                 </div>
 
-                <!-- ТРИГГЕР 5: ДВЕРЬ №2 ГАРДЕРОБА (СПРАВА) — ЗВУК И ВХОД В ИСКАЖЕННУЮ КОМНАТУ -->
+                <!-- ТРИГГЕР 5: ДВЕРЬ №2 ГАРДЕРОБА (СПРАВА) -->
                 <div id="hitbox-wardrobe"
                      onclick="openPuzzleFolder('puzzle-folder-wardrobe')"
                      style="left: 64%; top: 18%; width: 19%; height: 60%;"
@@ -683,11 +632,9 @@
             </div>
 
 
-            <!-- ==================================================================
-                 МОДАЛЬНЫЕ ПАПКИ МИНИ-ИГР (ВСТАВЛЯЙТЕ ВАШ КАСТОМНЫЙ UI СЮДА)
-                 ================================================================== -->
+            <!-- МОДАЛЬНЫЕ ПАПКИ МИНИ-ИГР -->
 
-            <!-- ================= ПАПКА ГОЛОВОЛОМКИ №1: КУЛОН-КОМПАС ================= -->
+            <!-- ПАПКА ГОЛОВОЛОМКИ №1: КУЛОН-КОМПАС -->
             <div id="puzzle-folder-locket" class="puzzle-modal" onclick="closeModalOnBackdrop(event, 'puzzle-folder-locket')">
                 <div class="relative w-full max-w-md bg-slate-900/95 border-2 border-amber-500/60 rounded-2xl p-6 shadow-2xl text-center">
                     <div class="flex items-center justify-between border-b border-slate-800 pb-3 mb-4">
@@ -697,7 +644,6 @@
                         <button onclick="closePuzzleFolder('puzzle-folder-locket')" class="text-slate-400 hover:text-white bg-slate-800 px-2.5 py-1 rounded text-xs font-bold">✕</button>
                     </div>
 
-                    <!-- ШАГ 1: Кулон закрыт (нужно кликнуть, чтобы открыть крышку как компас) -->
                     <div id="locket-closed-view" class="py-4 flex flex-col items-center">
                         <p class="text-xs text-slate-300 mb-4 max-w-xs">
                             Тяжелый серебряный медальон на цепочке. Внутри что-то тихо тикает в такт гулу из гардероба.
@@ -708,28 +654,22 @@
                         </button>
                     </div>
 
-                    <!-- ШАГ 2: Кулон раскрыт как компас — вращение кольца до резонанса (45° на Гардероб) -->
                     <div id="locket-open-view" class="hidden flex-col items-center">
                         <p class="text-xs text-slate-300 mb-3">
                             Кулон раскрылся как компас! Поверните кольцо азимута так, чтобы стрелка указала точно на <span class="text-purple-300 font-bold">2-ю дверь Гардероба (45° С-В)</span>.
                         </p>
 
-                        <!-- Визуализация открытого компаса -->
                         <div class="relative w-44 h-44 my-2 flex items-center justify-center">
                             <svg class="w-full h-full" viewBox="0 0 200 200">
-                                <!-- Корпус компаса -->
                                 <circle cx="100" cy="100" r="90" fill="#090d16" stroke="#f59e0b" stroke-width="5"/>
                                 <circle cx="100" cy="100" r="80" fill="none" stroke="#334155" stroke-width="1" stroke-dasharray="4 4"/>
-                                <!-- Деления сторон света -->
                                 <text x="100" y="28" fill="#94a3b8" font-size="11" font-weight="bold" text-anchor="middle">N (0°)</text>
                                 <text x="172" y="104" fill="#94a3b8" font-size="11" font-weight="bold" text-anchor="middle">E</text>
                                 <text x="100" y="180" fill="#94a3b8" font-size="11" font-weight="bold" text-anchor="middle">S</text>
                                 <text x="28" y="104" fill="#94a3b8" font-size="11" font-weight="bold" text-anchor="middle">W</text>
-                                <!-- Отметка Гардероба на 45 градусах -->
                                 <circle cx="156" cy="44" r="7" fill="#9333ea" opacity="0.45"/>
                                 <text x="156" y="32" fill="#d8b4fe" font-size="9" text-anchor="middle">Гардероб (45°)</text>
 
-                                <!-- Вращающаяся стрелка компаса -->
                                 <g id="compass-needle-group" transform="rotate(180 100 100)">
                                     <polygon points="100,26 107,100 100,88 93,100" fill="#f43f5e"/>
                                     <polygon points="100,174 107,100 100,112 93,100" fill="#64748b"/>
@@ -738,7 +678,6 @@
                             </svg>
                         </div>
 
-                        <!-- Ползунок вращения -->
                         <div class="w-full px-4 mt-2">
                             <div class="flex justify-between text-xs text-slate-400 mb-1">
                                 <span>Угол стрелки: <strong id="compass-angle-label" class="text-amber-300">180°</strong></span>
@@ -761,7 +700,7 @@
             </div>
 
 
-            <!-- ================= ПАПКА ГОЛОВОЛОМКИ №2: ДОСКА С МЕЛОМ ================= -->
+            <!-- ПАПКА ГОЛОВОЛОМКИ №2: ДОСКА С МЕЛОМ -->
             <div id="puzzle-folder-board" class="puzzle-modal" onclick="closeModalOnBackdrop(event, 'puzzle-folder-board')">
                 <div class="relative w-full max-w-lg bg-slate-900/95 border-2 border-emerald-500/50 rounded-2xl p-6 shadow-2xl text-center">
                     <div class="flex items-center justify-between border-b border-slate-800 pb-3 mb-3">
@@ -775,16 +714,12 @@
                         На доске кто-то написал ложный след про подвал. <strong class="text-amber-300">Шаг 1:</strong> Сотрите губкой ложную запись. <strong class="text-emerald-300">Шаг 2:</strong> Кликните по трем узлам по порядку, чтобы провести мелом линию к Гардеробу.
                     </p>
 
-                    <!-- Интерактивная грифельная доска -->
                     <div class="relative w-full h-56 bg-[#102019] border-4 border-[#3f2e21] rounded-xl overflow-hidden shadow-inner p-3 select-none">
-                        
-                        <!-- Холст для рисования линий мелом между узлами -->
                         <svg id="chalkboard-svg" class="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 440 210">
                             <line id="chalk-line-1" x1="80" y1="150" x2="220" y2="65" stroke="#f8fafc" stroke-width="3" stroke-dasharray="6 4" class="hidden"/>
                             <line id="chalk-line-2" x1="220" y1="65" x2="365" y2="135" stroke="#c084fc" stroke-width="3.5" stroke-dasharray="6 4" class="hidden"/>
                         </svg>
 
-                        <!-- Ложная надпись мелом, которую нужно стереть -->
                         <div id="false-basement-note" onclick="eraseFalseChalk()" 
                              class="absolute top-3 left-4 bg-rose-950/60 hover:bg-rose-900/70 border border-dashed border-rose-400/60 px-3 py-1.5 rounded cursor-pointer transition">
                             <span class="text-xs font-mono text-rose-200 line-through decoration-transparent" id="false-chalk-text">
@@ -792,21 +727,18 @@
                             </span>
                         </div>
 
-                        <!-- Узел 1: Кулон -->
                         <button id="chalk-node-1" onclick="clickChalkNode(1)" 
                                 style="left: 11%; top: 62%;"
                                 class="absolute px-3 py-1.5 rounded-lg bg-slate-900/90 border-2 border-slate-500 text-xs text-slate-200 hover:border-white transition">
                             1. Стрелка Кулона
                         </button>
 
-                        <!-- Узел 2: Звук/Шепот -->
                         <button id="chalk-node-2" onclick="clickChalkNode(2)" 
                                 style="left: 41%; top: 22%;"
                                 class="absolute px-3 py-1.5 rounded-lg bg-slate-900/90 border-2 border-slate-500 text-xs text-slate-200 hover:border-white transition">
                             2. Звук за створкой
                         </button>
 
-                        <!-- Узел 3: 2-я Дверь Гардероба -->
                         <button id="chalk-node-3" onclick="clickChalkNode(3)" 
                                 style="left: 71%; top: 55%;"
                                 class="absolute px-3 py-1.5 rounded-lg bg-slate-900/90 border-2 border-purple-400/60 text-xs text-purple-200 hover:border-purple-300 transition">
@@ -821,7 +753,7 @@
             </div>
 
 
-            <!-- ================= ПАПКА ГОЛОВОЛОМКИ №3: ЧАСТОТА ШЕПОТА (ДОП. ИГРА) ================= -->
+            <!-- ПАПКА ГОЛОВОЛОМКИ №3: ЧАСТОТА ШЕПОТА -->
             <div id="puzzle-folder-extra" class="puzzle-modal" onclick="closeModalOnBackdrop(event, 'puzzle-folder-extra')">
                 <div class="relative w-full max-w-md bg-slate-900/95 border-2 border-cyan-500/50 rounded-2xl p-6 shadow-2xl text-center">
                     <div class="flex items-center justify-between border-b border-slate-800 pb-3 mb-4">
@@ -835,7 +767,6 @@
                         Приемник ловит акустический резонанс из 2-й двери гардероба. Настройте частоту на <span class="text-cyan-300 font-bold">104.5 МГц</span>, чтобы разобрать шепот.
                     </p>
 
-                    <!-- Экран осциллографа -->
                     <div class="bg-slate-950 border border-slate-800 rounded-xl p-4 mb-4">
                         <div class="font-mono text-2xl text-cyan-400 font-bold tracking-widest mb-2" id="radio-freq-display">
                             88.0 МГц
@@ -856,7 +787,7 @@
             </div>
 
 
-            <!-- ================= ПАПКА ДВЕРИ №2 ГАРДЕРОБА (ВХОД В ИСКАЖЕННУЮ КОМНАТУ) ================= -->
+            <!-- ПАПКА ДВЕРИ №2 ГАРДЕРОБА -->
             <div id="puzzle-folder-wardrobe" class="puzzle-modal" onclick="closeModalOnBackdrop(event, 'puzzle-folder-wardrobe')">
                 <div class="relative w-full max-w-md bg-slate-950 border-2 border-purple-500/70 rounded-2xl p-6 shadow-2xl text-center">
                     <div class="flex items-center justify-between border-b border-slate-800 pb-3 mb-4">
@@ -885,18 +816,12 @@
              ====================================================================== -->
         <section id="scene-outro" class="game-scene flex-col justify-between relative overflow-hidden bg-black">
 
-            <!-- ==================================================================
-                 ЧАСТЬ А: СЛОЙ ИСКАЖЕННОЙ КОМНАТЫ И СПРАЙТА ТЕНИ
-                 Именно этот слой (.vn-stage-layer) получает размытие Gaussian Blur,
-                 когда на экране появляется круговой элемент выбора Yes / No!
-                 ================================================================== -->
+            <!-- СЛОЙ ИСКАЖЕННОЙ КОМНАТЫ И СПРАЙТА ТЕНИ -->
             <div id="vn-distorted-stage" class="vn-stage-layer absolute inset-0 w-full h-full z-10 overflow-hidden">
                 
-                <!-- Слот под ваш фон Искаженной комнаты -->
                 <img id="distorted-bg-img" src="" alt="Distorted Room" class="absolute inset-0 w-full h-full object-cover hidden"
                      onload="if(this.getAttribute('src')) this.classList.remove('hidden');" />
 
-                <!-- Сюрреалистичный векторный арт Искаженной комнаты (вместо подвала) -->
                 <svg class="absolute inset-0 w-full h-full" viewBox="0 0 960 540" fill="none">
                     <defs>
                         <radialGradient id="distortedVortex" cx="50%" cy="42%" r="60%">
@@ -907,26 +832,19 @@
                     </defs>
                     <rect width="960" height="540" fill="url(#distortedVortex)"/>
 
-                    <!-- Искаженная геометрия стен и парящих обломков воспоминаний -->
                     <g opacity="0.45" class="distorted-float">
                         <polygon points="110,70 850,120 770,460 180,410" stroke="#7e22ce" stroke-width="1.5" fill="none"/>
                         <polygon points="190,110 780,75 810,430 140,450" stroke="#38bdf8" stroke-width="1" stroke-dasharray="8 6" fill="none"/>
-                        <!-- Парящие перевернутые рамы дверей и часов -->
                         <rect x="130" y="140" width="70" height="140" transform="rotate(-14 165 210)" stroke="#a855f7" stroke-width="1.5" fill="#090514"/>
                         <rect x="740" y="160" width="65" height="130" transform="rotate(18 772 225)" stroke="#6366f1" stroke-width="1.5" fill="#090514"/>
                     </g>
 
-                    <!-- Спрайт Тени / Отражения в центре Искаженной комнаты -->
                     <g id="shadow-character-sprite" class="distorted-float" transform="translate(480, 255)">
-                        <!-- Аура Тени -->
                         <circle cx="0" cy="-10" r="95" fill="#9333ea" opacity="0.18"/>
-                        <!-- Силуэт фигуры -->
                         <path d="M -52,175 C -48,65 -35,20 0,20 C 35,20 48,65 52,175 Z" fill="#09070f" stroke="#c084fc" stroke-width="1.8"/>
-                        <!-- Голова и светящиеся глаза Отражения -->
                         <circle cx="0" cy="-28" r="34" fill="#09070f" stroke="#e9d5ff" stroke-width="1.8"/>
                         <ellipse cx="-11" cy="-30" rx="4" ry="2.5" fill="#f8fafc"/>
                         <ellipse cx="11" cy="-30" rx="4" ry="2.5" fill="#f8fafc"/>
-                        <!-- Протянутая рука со второй половинкой кулона -->
                         <circle cx="0" cy="58" r="9" fill="#fbbf24" stroke="#fef08a" stroke-width="2">
                             <animate attributeName="r" values="8;11;8" dur="2s" repeatCount="indefinite"/>
                         </circle>
@@ -935,22 +853,17 @@
             </div>
 
 
-            <!-- ==================================================================
-                 ЧАСТЬ Б: КРУГОВОЙ ИНТЕРФЕЙС ВЫБОРА (NO | YES) ПОВЕРХ РАЗМЫТОГО ФОНА
-                 ================================================================== -->
+            <!-- КРУГОВОЙ ИНТЕРФЕЙС ВЫБОРА (NO | YES) -->
             <div id="vn-choice-overlay">
                 <div class="text-xs uppercase tracking-[0.25em] text-slate-200/90 mb-5 font-light drop-shadow">
                     Принять то, что скрыто за дверью?
                 </div>
 
                 <div class="relative flex items-center justify-center">
-                    <!-- Пульсирующее кольцо в такт стуку сердца -->
                     <div class="heartbeat-aura"></div>
 
-                    <!-- Круг выбора, разделенный вертикальной стрелкой пополам -->
                     <div class="choice-circle-wheel">
                         
-                        <!-- Левая половина: NO -->
                         <div class="choice-half choice-half-no" 
                              onmouseenter="playChoiceHoverTone(190)"
                              onclick="makeClimacticChoice('NO')">
@@ -958,21 +871,15 @@
                             <span class="text-[10px] uppercase tracking-widest text-rose-300/70 mt-1">Отвергнуть</span>
                         </div>
 
-                        <!-- Центральная вертикальная разделительная стрелка-линия -->
                         <div class="choice-divider-arrow">
                             <svg class="w-6 h-full" viewBox="0 0 24 240" fill="none">
-                                <!-- Верхнее острие стрелки -->
                                 <path d="M12 6 L6 18 L12 14 L18 18 Z" fill="#ffffff" opacity="0.9"/>
-                                <!-- Вертикальная ось -->
                                 <line x1="12" y1="14" x2="12" y2="226" stroke="#ffffff" stroke-width="1.5" stroke-opacity="0.85"/>
-                                <!-- Центральный ромб -->
                                 <polygon points="12,112 17,120 12,128 7,120" fill="#ffffff"/>
-                                <!-- Нижнее острие стрелки -->
                                 <path d="M12 234 L6 222 L12 226 L18 222 Z" fill="#ffffff" opacity="0.9"/>
                             </svg>
                         </div>
 
-                        <!-- Правая половина: YES -->
                         <div class="choice-half choice-half-yes" 
                              onmouseenter="playChoiceHoverTone(440)"
                              onclick="makeClimacticChoice('YES')">
@@ -985,26 +892,19 @@
             </div>
 
 
-            <!-- ==================================================================
-                 ЧАСТЬ В: АБСТРАКТНЫЙ ФИНАЛ В СТИЛЕ TOKYO GHOUL (ОЗЕРО И СТУЛ НА ВОДЕ)
-                 Рендерится на полноэкранном <canvas> с отражением неба и кругами на воде
-                 ================================================================== -->
+            <!-- ФИНАЛ НА ОЗЕРЕ -->
             <div id="lake-ending-stage" class="absolute inset-0 w-full h-full z-20 hidden">
                 <canvas id="lake-canvas" class="w-full h-full block"></canvas>
             </div>
 
 
-            <!-- Верхний бейдж текущей фазы Аутро -->
             <div class="relative z-30 flex justify-between items-center p-4 pointer-events-none">
                 <span id="outro-phase-badge" class="px-3 py-1 bg-black/65 border border-white/15 rounded-full text-[11px] text-slate-300 backdrop-blur-sm">
                     Сцена 3: Искаженная комната
                 </span>
             </div>
 
-            <!-- ==================================================================
-                 НИЖНЕЕ ДИАЛОГОВОЕ ОКНО ВИЗУАЛЬНОЙ НОВЕЛЛЫ
-                 Прячется во время активного кругового выбора Yes/No
-                 ================================================================== -->
+            <!-- ДИАЛОГОВОЕ ОКНО ВИЗУАЛЬНОЙ НОВЕЛЛЫ -->
             <div id="vn-dialogue-box" class="relative z-30 m-4 mt-auto bg-slate-950/90 border border-slate-700/80 rounded-2xl p-4 sm:p-5 backdrop-blur-md shadow-2xl transition-all duration-400">
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                     <div class="flex-1">
@@ -1033,11 +933,11 @@
 
     </main>
 
-    <!-- Подсказка по архитектуре под экраном игры -->
+    <!-- Подсказка под экраном игры -->
     <footer class="w-full max-w-[960px] mt-3 grid grid-cols-1 md:grid-cols-3 gap-2.5 text-[11px] text-slate-400">
         <div class="bg-slate-900/70 border border-slate-800/90 p-2.5 rounded-lg">
             <strong class="text-slate-200 block mb-0.5">1. Замена фонов и гифки:</strong>
-            Вставьте свои пути к файлам в <code class="text-purple-300">#intro-gif-bg</code>, <code class="text-purple-300">#room-bg-texture</code> и <code class="text-purple-300">#distorted-bg-img</code> — они автоматически перекроют векторные макеты.
+            Вставьте свои пути к файлам в <code class="text-purple-300">#intro-gif-bg</code>, <code class="text-purple-300">#room-bg-texture</code> и <code class="text-purple-300">#distorted-bg-img</code>.
         </div>
         <div class="bg-slate-900/70 border border-slate-800/90 p-2.5 rounded-lg">
             <strong class="text-slate-200 block mb-0.5">2. Папки мини-игр (Сцена 2):</strong>
@@ -1045,42 +945,31 @@
         </div>
         <div class="bg-slate-900/70 border border-slate-800/90 p-2.5 rounded-lg">
             <strong class="text-slate-200 block mb-0.5">3. Выбор Yes/No и Озеро:</strong>
-            Нажмите <code class="text-purple-300">3. Выбор (Yes/No)</code> в панели сверху, чтобы сразу протестировать размытие экрана, круговой UI и оба финала в стиле <em>Tokyo Ghoul</em>.
+            Нажмите <code class="text-purple-300">3. Выбор (Yes/No)</code> в панели сверху, чтобы сразу протестировать размытие экрана, круговой UI и оба финала.
         </div>
     </footer>
 
 
-    <!-- ==========================================================================
-         JAVASCRIPT: ИГРОВОЙ ДВИЖОК, СИНТЕЗАТОР ЗВУКА, ГОЛОВОЛОМКИ И ФИНАЛ НА ОЗЕРЕ
-         ========================================================================== -->
+    <!-- JAVASCRIPT: ДВИЖОК, СИНТЕЗАТОР ЗВУКА И ГОЛОВОЛОМКИ -->
     <script>
-        /* ========================================================================
-           1. ГЛОБАЛЬНОЕ СОСТОЯНИЕ ИГРЫ
-           ======================================================================== */
         const gameState = {
             currentScene: 'intro',
             debugHitboxes: true,
             audioEnabled: true,
             puzzlesSolved: {
-                locket: false, // Кулон-компас открыт и направлен на 45°
-                board: false,  // Ложная запись про подвал стерта, линия мелом проведена
-                extra: false   // Радиоприемник настроен на частоту шепота 104.5 МГц
+                locket: false,
+                board: false,
+                extra: false
             },
-            // Состояние головоломки с доской
             boardFalseErased: false,
             boardStep: 0,
-            // Индекс шага диалога в Искаженной комнате
             vnStepIndex: 0,
-            selectedBranch: null, // 'YES' | 'NO'
+            selectedBranch: null,
             branchStepIndex: 0,
             heartbeatTimer: null,
             lakeAnimFrame: null
         };
 
-        /* ========================================================================
-           2. WEB AUDIO API СИНТЕЗАТОР (БЕЗ ВНЕШНИХ ФАЙЛОВ — РАБОТАЕТ СРАЗУ)
-           Генерирует щелчок компаса, скрип мела, гул из гардероба, стук сердца и аккорды озера
-           ======================================================================== */
         let audioCtx = null;
 
         function getAudioContext() {
@@ -1104,7 +993,6 @@
             }
         }
 
-        // Металлический щелчок кулона-компаса
         function playCompassClickSound() {
             const ctx = getAudioContext();
             if (!ctx) return;
@@ -1121,7 +1009,6 @@
             osc.stop(ctx.currentTime + 0.09);
         }
 
-        // Низкий вибрирующий гул из 2-й двери гардероба
         function playWardrobeHumSound() {
             const ctx = getAudioContext();
             if (!ctx) return;
@@ -1139,7 +1026,6 @@
             osc.stop(ctx.currentTime + 1.25);
         }
 
-        // Глухой стук сердца во время размытия и выбора Yes / No
         function playHeartbeatPulse() {
             const ctx = getAudioContext();
             if (!ctx) return;
@@ -1159,7 +1045,6 @@
             });
         }
 
-        // Звук при наведении на половинки круга No / Yes
         function playChoiceHoverTone(freq) {
             const ctx = getAudioContext();
             if (!ctx) return;
@@ -1175,7 +1060,6 @@
             osc.stop(ctx.currentTime + 0.26);
         }
 
-        // Музыкальный аккорд для финала на озере (светлый для YES, холодный для NO)
         function playEndingChord(branch) {
             const ctx = getAudioContext();
             if (!ctx) return;
@@ -1195,10 +1079,6 @@
             });
         }
 
-
-        /* ========================================================================
-           3. СЦЕНАРИЙ ИСКАЖЕННОЙ КОМНАТЫ И ВЕТВЛЕНИЯ (ПО ДОКУМЕНТУ НАРРАТИВА)
-           ======================================================================== */
         const distortedIntroScript = [
             {
                 speaker: "Протагонист (мысли)",
@@ -1256,10 +1136,6 @@
             ]
         };
 
-
-        /* ========================================================================
-           4. УПРАВЛЕНИЕ СЦЕНАМИ И ПАПКАМИ ГОЛОВОЛОМОК
-           ======================================================================== */
         function switchScene(sceneName) {
             stopHeartbeatLoop();
             stopLakeAnimation();
@@ -1313,7 +1189,6 @@
             if (event.target.id === folderId) closePuzzleFolder(folderId);
         }
 
-        // Реакция на клик по Двери №1 (обманке)
         function inspectDecoyDoor() {
             playCompassClickSound();
             setRoomStatusText('Дверь №1 заперта снаружи. Подвала здесь нет — низкий гул идет из 2-й двери Гардероба справа.');
@@ -1324,7 +1199,6 @@
             if (bar) bar.textContent = text;
         }
 
-        // Отметка о решении любой из 3 головоломок комнаты
         function markPuzzleSolved(key, message) {
             gameState.puzzlesSolved[key] = true;
 
@@ -1351,12 +1225,6 @@
             return locket && board && extra;
         }
 
-
-        /* ========================================================================
-           5. ЛОГИКА МИНИ-ИГР В ТРИГГЕРНЫХ ПАПКАХ (СЦЕНА 2)
-           ======================================================================== */
-
-        // --- МИНИ-ИГРА 1: КУЛОН-КОМПАС ---
         function openLocketCover() {
             playCompassClickSound();
             document.getElementById('locket-closed-view').classList.add('hidden');
@@ -1389,7 +1257,6 @@
             }
         }
 
-        // --- МИНИ-ИГРА 2: ДОСКА С МЕЛОМ ---
         function eraseFalseChalk() {
             gameState.boardFalseErased = true;
             playCompassClickSound();
@@ -1430,7 +1297,6 @@
             }
         }
 
-        // --- МИНИ-ИГРА 3: РАДИОПРИЕМНИК / ЧАСТОТА ШЕПОТА ---
         function tuneRadioFrequency(val) {
             const freq = parseFloat(val).toFixed(1);
             document.getElementById('radio-freq-display').textContent = `${freq} МГц`;
@@ -1461,7 +1327,6 @@
             }
         }
 
-        // --- ПЕРЕХОД ЧЕРЕЗ ГАРДЕРОБ В ИСКАЖЕННУЮ КОМНАТУ ---
         function updateWardrobeModalState() {
             const desc = document.getElementById('wardrobe-modal-desc');
             const solvedCount = Object.values(gameState.puzzlesSolved).filter(Boolean).length;
@@ -1477,10 +1342,6 @@
             switchScene('outro');
         }
 
-
-        /* ========================================================================
-           6. СЦЕНА 3: ИСКАЖЕННАЯ КОМНАТА, РАЗМЫТИЕ И КРУГОВОЙ ВЫБОР (NO | YES)
-           ======================================================================== */
         function initDistortedRoomSequence() {
             stopHeartbeatLoop();
             stopLakeAnimation();
@@ -1489,7 +1350,6 @@
             gameState.selectedBranch = null;
             gameState.branchStepIndex = 0;
 
-            // Сбрасываем слои Аутро
             const stage = document.getElementById('vn-distorted-stage');
             stage.classList.remove('choice-blur-active', 'hidden');
 
@@ -1513,7 +1373,6 @@
         function advanceVnDialogue() {
             playCompassClickSound();
 
-            // Если выбор Yes/No еще не сделан — идем по вступительному диалогу Искаженной комнаты
             if (!gameState.selectedBranch) {
                 const currentStep = distortedIntroScript[gameState.vnStepIndex];
                 if (currentStep && currentStep.triggerChoiceAfter) {
@@ -1527,12 +1386,10 @@
                 return;
             }
 
-            // Если выбор уже сделан ('YES' или 'NO') — идем по ветке концовки
             const branchList = branchDialogues[gameState.selectedBranch];
             const currentBranchStep = branchList[gameState.branchStepIndex];
 
             if (currentBranchStep && currentBranchStep.enterLakeAfter) {
-                // Включаем анимированную сцену Озера в стиле Tokyo Ghoul
                 startLakeCanvasScene(gameState.selectedBranch);
             }
 
@@ -1549,19 +1406,12 @@
             }
         }
 
-        // АКТИВАЦИЯ УНИКАЛЬНОЙ МЕХАНИКИ ВЫБОРА: Размытие фона + Круг (No | Yes) + Стук сердца
         function activateBlurChoiceMechanic() {
-            // 1. Прячем диалоговое окно
             document.getElementById('vn-dialogue-box').classList.add('opacity-0', 'pointer-events-none');
-
-            // 2. Размываем фон и спрайт персонажа (Gaussian Blur)
             document.getElementById('vn-distorted-stage').classList.add('choice-blur-active');
-
-            // 3. Показываем круговой элемент выбора в центре
             document.getElementById('vn-choice-overlay').classList.add('active');
             document.getElementById('outro-phase-badge').textContent = 'Момент выбора: No | Yes';
 
-            // 4. Запускаем пульс сердца
             playHeartbeatPulse();
             stopHeartbeatLoop();
             gameState.heartbeatTimer = setInterval(playHeartbeatPulse, 1500);
@@ -1574,18 +1424,15 @@
             }
         }
 
-        // Игрок нажал «No» (слева) или «Yes» (справа) в круговом UI
         function makeClimacticChoice(branch) {
             stopHeartbeatLoop();
             gameState.selectedBranch = branch;
             gameState.branchStepIndex = 0;
 
-            // Мгновенно снимаем размытие и убираем круг выбора
             const stage = document.getElementById('vn-distorted-stage');
             stage.classList.remove('choice-blur-active');
             document.getElementById('vn-choice-overlay').classList.remove('active');
 
-            // Визуальный переход в зависимости от выбора
             const flashLayer = document.getElementById('screen-flash-layer');
             const frame = document.getElementById('flash-player-frame');
 
@@ -1601,7 +1448,6 @@
                 playEndingChord('NO');
             }
 
-            // Возвращаем диалоговое окно с последствиями выбора
             const dlg = document.getElementById('vn-dialogue-box');
             dlg.classList.remove('opacity-0', 'pointer-events-none');
 
@@ -1611,11 +1457,6 @@
             document.getElementById('outro-phase-badge').textContent = branch === 'YES' ? 'Ветка YES: Принятие' : 'Ветка NO: Отрицание';
         }
 
-
-        /* ========================================================================
-           7. АБСТРАКТНЫЙ ФИНАЛ НА ОЗЕРЕ В СТИЛЕ TOKYO GHOUL (KANEKI KEN LAKE SCENE)
-           Рендерит на Canvas зеркальное озеро, облака/звезды, круги на воде и стул с героем
-           ======================================================================== */
         function startLakeCanvasScene(branch) {
             const lakeContainer = document.getElementById('lake-ending-stage');
             lakeContainer.classList.remove('hidden');
@@ -1629,9 +1470,8 @@
             canvas.height = 540;
 
             let time = 0;
-            const horizonY = 295; // Линия горизонта зеркального озера
+            const horizonY = 295;
 
-            // Облака и частицы света
             const clouds = [
                 { x: 140, y: 85, w: 220, h: 42, speed: 0.18 },
                 { x: 520, y: 60, w: 280, h: 52, speed: 0.12 },
@@ -1643,7 +1483,6 @@
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
 
                 if (branch === 'YES') {
-                    // --- ВЕТКА YES: ПРОЗРАЧНОЕ НЕБО И ЗЕРКАЛЬНОЕ ОЗЕРО (КАК В UNRAVEL / KANEKI SCENE) ---
                     const skyGrad = ctx.createLinearGradient(0, 0, 0, horizonY);
                     skyGrad.addColorStop(0, '#7dd3fc');
                     skyGrad.addColorStop(0.55, '#e0f2fe');
@@ -1651,7 +1490,6 @@
                     ctx.fillStyle = skyGrad;
                     ctx.fillRect(0, 0, canvas.width, horizonY);
 
-                    // Зеркальная вода, отражающая небо
                     const waterGrad = ctx.createLinearGradient(0, horizonY, 0, canvas.height);
                     waterGrad.addColorStop(0, '#ffffff');
                     waterGrad.addColorStop(0.35, '#bae6fd');
@@ -1659,16 +1497,13 @@
                     ctx.fillStyle = waterGrad;
                     ctx.fillRect(0, horizonY, canvas.width, canvas.height - horizonY);
 
-                    // Мягкие плывущие облака в небе и их отражение в воде
                     clouds.forEach(c => {
                         c.x = (c.x + c.speed) % (canvas.width + 260) - 130;
-                        // В небе
                         ctx.fillStyle = 'rgba(255, 255, 255, 0.78)';
                         ctx.beginPath();
                         ctx.ellipse(c.x, c.y, c.w * 0.5, c.h * 0.5, 0, 0, Math.PI * 2);
                         ctx.fill();
 
-                        // Отражение в озере
                         const reflectY = horizonY + (horizonY - c.y) * 0.75;
                         ctx.fillStyle = 'rgba(255, 255, 255, 0.42)';
                         ctx.beginPath();
@@ -1676,7 +1511,6 @@
                         ctx.fill();
                     });
 
-                    // Линия горизонта
                     ctx.strokeStyle = 'rgba(255, 255, 255, 0.9)';
                     ctx.lineWidth = 1.5;
                     ctx.beginPath();
@@ -1685,7 +1519,6 @@
                     ctx.stroke();
 
                 } else {
-                    // --- ВЕТКА NO: ЧЕРНОЕ НЕБО И ЗАСТЫВШЕЕ ТЕМНОЕ СТЕКЛО ВОДЫ ---
                     const darkSky = ctx.createLinearGradient(0, 0, 0, horizonY);
                     darkSky.addColorStop(0, '#020205');
                     darkSky.addColorStop(1, '#0f071e');
@@ -1698,7 +1531,6 @@
                     ctx.fillStyle = darkWater;
                     ctx.fillRect(0, horizonY, canvas.width, canvas.height - horizonY);
 
-                    // Тусклая багровая линия горизонта
                     ctx.strokeStyle = 'rgba(225, 29, 72, 0.35)';
                     ctx.lineWidth = 1;
                     ctx.beginPath();
@@ -1707,11 +1539,9 @@
                     ctx.stroke();
                 }
 
-                // --- ЦЕНТРАЛЬНАЯ КОМПОЗИЦИЯ: ДЕРЕВЯННЫЙ СТУЛ И СИДЯЩИЙ ПРОТАГОНИСТ В ВОДЕ ---
                 const centerX = 480;
-                const chairBaseY = 348; // Стул стоит прямо на мелководье озера
+                const chairBaseY = 348;
 
-                // Расходящиеся круги на воде у ножек стула и щиколоток героя
                 for (let r = 0; r < 3; r++) {
                     const progress = (time * 0.45 + r * 0.33) % 1;
                     const rx = 25 + progress * 95;
@@ -1726,7 +1556,6 @@
                     ctx.stroke();
                 }
 
-                // Функция рисования стула и силуэта героя (используется и для оригинала, и для водного отражения)
                 function drawChairAndFigure(isReflection) {
                     ctx.save();
                     if (isReflection) {
@@ -1739,30 +1568,23 @@
                     const silhouetteColor = branch === 'YES' ? '#1e293b' : '#09090f';
                     const strokeAccent = branch === 'YES' ? '#475569' : '#881337';
 
-                    // Спинка и ножки одинокого стула
                     ctx.strokeStyle = strokeAccent;
                     ctx.lineWidth = 3.5;
                     ctx.beginPath();
-                    // Задняя стойка со спинкой
                     ctx.moveTo(centerX - 18, chairBaseY - 68);
                     ctx.lineTo(centerX - 18, chairBaseY + 6);
-                    // Передняя ножка
                     ctx.moveTo(centerX + 14, chairBaseY - 28);
                     ctx.lineTo(centerX + 14, chairBaseY + 6);
-                    // Сиденье
                     ctx.moveTo(centerX - 20, chairBaseY - 28);
                     ctx.lineTo(centerX + 18, chairBaseY - 28);
                     ctx.stroke();
 
-                    // Силуэт сидящего на стуле Протагониста
                     ctx.fillStyle = silhouetteColor;
-                    // Торс и слегка склоненная голова
-                    const headTilt = branch === 'YES' ? -4 : 6; // В YES смотрит в небо, в NO опустил голову
+                    const headTilt = branch === 'YES' ? -4 : 6;
                     ctx.beginPath();
                     ctx.arc(centerX - 2 + headTilt, chairBaseY - 76, 11, 0, Math.PI * 2);
                     ctx.fill();
 
-                    // Тело и ноги, опущенные в воду
                     ctx.lineWidth = 9;
                     ctx.lineCap = 'round';
                     ctx.strokeStyle = silhouetteColor;
@@ -1776,7 +1598,6 @@
                     ctx.restore();
                 }
 
-                // Рисуем отражение в воде, а затем саму фигуру
                 drawChairAndFigure(true);
                 drawChairAndFigure(false);
 
@@ -1794,10 +1615,6 @@
             }
         }
 
-
-        /* ========================================================================
-           8. ФУНКЦИИ ПАНЕЛИ РАЗРАБОТЧИКА (ДЛЯ БЫСТРОЙ ПРОВЕРКИ И ОТЛАДКИ)
-           ======================================================================== */
         function toggleDebugHitboxes() {
             const frame = document.getElementById('flash-player-frame');
             const btn = document.getElementById('btn-toggle-debug');
@@ -1814,7 +1631,6 @@
             }
         }
 
-        // Быстрый переход сразу к моменту размытия и круговому выбору Yes/No
         function jumpToDistortedChoiceDev() {
             switchScene('outro');
             gameState.vnStepIndex = distortedIntroScript.length - 1;
@@ -1822,7 +1638,6 @@
             activateBlurChoiceMechanic();
         }
 
-        // Быстрый показ финала на озере (YES или NO)
         function triggerLakeEnding(branch) {
             switchScene('outro');
             makeClimacticChoice(branch);
@@ -1830,7 +1645,6 @@
             advanceVnDialogue();
         }
 
-        // Быстрое решение всех пазлов во 2-й сцене
         function solveAllPuzzlesDev() {
             switchScene('game');
             markPuzzleSolved('locket');
@@ -1838,7 +1652,6 @@
             markPuzzleSolved('extra');
         }
 
-        // Полный сброс игры к началу
         function resetFullGame() {
             stopHeartbeatLoop();
             stopLakeAnimation();
@@ -1847,25 +1660,21 @@
             gameState.boardFalseErased = false;
             gameState.boardStep = 0;
 
-            // Сброс кулона
             document.getElementById('locket-closed-view').classList.remove('hidden');
             document.getElementById('locket-open-view').classList.add('hidden');
             document.getElementById('locket-open-view').classList.remove('flex');
             document.getElementById('compass-slider').value = 180;
             rotateCompassNeedle(180);
 
-            // Сброс доски с мелом
             document.getElementById('chalk-line-1').classList.add('hidden');
             document.getElementById('chalk-line-2').classList.add('hidden');
             const note = document.getElementById('false-basement-note');
             note.className = 'absolute top-3 left-4 bg-rose-950/60 hover:bg-rose-900/70 border border-dashed border-rose-400/60 px-3 py-1.5 rounded cursor-pointer transition';
             document.getElementById('false-chalk-text').textContent = '«Ищи ключ в подвале» (Нажмите, чтобы стереть губкой 🧽)';
 
-            // Сброс радио
             document.getElementById('radio-slider').value = 88.0;
             tuneRadioFrequency(88.0);
 
-            // Сброс галочек и HUD
             document.querySelectorAll('.trigger-hitbox').forEach(b => b.classList.remove('solved'));
             const hudDefaults = [
                 { id: 'hud-badge-locket', text: '🧭 Кулон-компас' },
@@ -1882,7 +1691,6 @@
             switchScene('intro');
         }
 
-        // Отслеживание координат мыши в процентах для удобного размещения ваших текстур
         window.onload = function () {
             const playerFrame = document.getElementById('flash-player-frame');
             const coordsDisplay = document.getElementById('mouse-coords-display');
