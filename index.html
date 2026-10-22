@@ -440,10 +440,10 @@
                  Пока гифка не вставлена, на фоне работает атмосферная SVG-анимация.
                  ================================================================== -->
             <video id="intro-gif-bg" 
-                 src="igro/cut kinda scenes/intro.mp4" 
-                 alt="Intro Looping GIF" 
-                 class="absolute inset-0 w-full h-full object-cover z-0 hidden"
-                 onload="if(this.getAttribute('src')) this.classList.remove('hidden');"> </video>
+               src="cut kinda scenes/intro.mp4" 
+               autoplay loop muted playsinline
+               class="absolute inset-0 w-full h-full object-cover z-0">
+            </video>
 
             <!-- Анимированный атмосферный фон по умолчанию (пока вы не подставили свой intro.gif) -->
             <div class="absolute inset-0 bg-[#07070c] z-0 flex items-center justify-center overflow-hidden">
